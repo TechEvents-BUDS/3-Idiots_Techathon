@@ -15,19 +15,19 @@ export async function POST(req: NextRequest) {
       const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
 
       // Start a chat session
-    const chat = model.startChat({
-      history: [
-        {
-          role: 'user',
-          parts: [
-            { text: initialContext + "\n" + messages[0].content },
-          ],
+      const chat = model.startChat({
+        history: [
+          {
+            role: 'user',
+            parts: [
+              { text: initialContext + "\n" + messages[0].content },
+            ],
+          },
+        ],
+        generationConfig: {
+          maxOutputTokens: 1000,
         },
-      ],
-      generationConfig: {
-        maxOutputTokens: 1000,
-      },
-    });
+      });
 
     // Send subsequent messages
     for (let i = 1; i < messages.length; i++) {

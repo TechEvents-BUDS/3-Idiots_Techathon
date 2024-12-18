@@ -6,6 +6,7 @@ import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGrou
 import { Activity, FileText, MessageSquare } from "lucide-react";
 import { PDFReport } from "./pdf-report";
 import { AIChat } from "./ai-chat";
+import { YoutubeVideos } from "./youtube-videos";
 
 export const HealthSidebar = () => {
    const [activeSection, setActiveSection] = useState("pdf-report");
@@ -47,7 +48,7 @@ export const HealthSidebar = () => {
          <div className="p-4 w-full">
             {activeSection === 'pdf-report' && <PDFReport />}
             {activeSection === 'ai-chat' && <AIChat />}
-            {/* {activeSection === 'youtube-videos' && <YoutubeVideos />} */}
+            {activeSection === 'youtube-videos' && <YoutubeVideos />}
          </div>
       </SidebarProvider>
    )
