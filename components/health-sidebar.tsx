@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Activity, FileText, MessageSquare } from "lucide-react";
 import { PDFReport } from "./pdf-report";
+import { AIChat } from "./ai-chat";
 
 export const HealthSidebar = () => {
    const [activeSection, setActiveSection] = useState("pdf-report");
@@ -43,10 +44,10 @@ export const HealthSidebar = () => {
                </SidebarGroup>
             </SidebarContent>
          </Sidebar>
-         <div className="p-4">
+         <div className="p-4 w-full">
             {activeSection === 'pdf-report' && <PDFReport />}
-            {/* {activeSection === 'youtube-videos' && <YoutubeVideos />}
-            {activeSection === 'ai-chat' && <AIChat />} */}
+            {activeSection === 'ai-chat' && <AIChat />}
+            {/* {activeSection === 'youtube-videos' && <YoutubeVideos />} */}
          </div>
       </SidebarProvider>
    )
