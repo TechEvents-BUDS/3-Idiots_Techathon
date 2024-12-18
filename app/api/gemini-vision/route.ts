@@ -1,5 +1,5 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextRequest, NextResponse } from 'next/server';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       ]
 
       const result = await model.generateContent([
-         'Analyze this medical report image and provide a summary of the key findings. If it\'s not a medical report, describe what you see in the image.',
+         'Analyze this medical report image and provide a summary of the key findings. If it\'s not a medical report, just say this is not a medical report.',
          ...imageParts,
       ])
       const response = result.response.text()

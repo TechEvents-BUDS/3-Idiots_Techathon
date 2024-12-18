@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 
 import { formatMessage } from "@/lib/formatMessage";
 
-type Message = {
+export type Message = {
    role: "user" | "ai";
    content: string;
 };
@@ -59,6 +59,36 @@ export const PDFReport = () => {
       }
    };
 
+   const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!input.trim()) return;
+
+      const userMessage = { role: 'user' as const, content: input };
+      setMessages(prev => [...prev, userMessage]);
+      setInput('');
+      setIsLoading(true);
+
+      try {
+         const response = await fetch('/api/gemini-chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: [...messages, userMessage] }),
+         });
+
+         if (!response.ok) {
+           throw new Error('Failed to get response')
+         }
+
+         const data = await response.json()
+         setMessages(prev => [...prev, { role: 'ai', content: data.response }])
+      } catch (error) {
+         console.error('Error getting response:', error);
+         setMessages(prev => [...prev, { role: 'ai', content: 'Error getting response. Please try again.' }]);
+      } finally {
+         setIsLoading(false);
+      };
+   };
+
    return (
       <Card className="w-full max-w-4xl mx-auto">
          <CardHeader>
@@ -97,13 +127,13 @@ export const PDFReport = () => {
                         ))}
                         {isLoading && <div className="text-gray-500">AI is thinking...</div>}
                      </ScrollArea>
-                     <form onSubmit={() => {}} className="flex space-x-2">
+                     <form onSubmit={handleSubmit} className="flex space-x-2">
                         <Input
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="Ask about your report..."
-                        className="flex-grow"
-                        disabled={isLoading}
+                           value={input}
+                           onChange={(e) => setInput(e.target.value)}
+                           placeholder="Ask about your report..."
+                           className="flex-grow"
+                           disabled={isLoading}
                         />
                         <Button type="submit" disabled={isLoading}>Send</Button>
                      </form>
